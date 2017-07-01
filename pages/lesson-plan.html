@@ -1,0 +1,157 @@
+<div id="wrapper">
+
+    <div id="page-wrapper">
+
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        {{message}}
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li>
+                            <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="active">
+                            <i class="fa fa-edit"></i> Forms
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <!-- Controls -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <button type="button" class="btn btn-md btn-primary" data-toggle="modal" data-target="#lessonPlanModal">Add Lesson Plan</button>
+                    <button ng-click="toggleEdit()" type="button" class="btn btn-md btn-default">Edit</button>
+                </div>
+            </div>
+            <!-- /.row -->          
+
+            <div class="row">
+                <div class="col-lg-12">
+                        <h2>Bordered with Striped Rows</h2>
+                        <div class="table-responsive">
+                            <table id="lessonPlanTable" class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th ng-if="editFlag"></th>
+                                        <th>No.</th>
+                                        <th class="col-md-2">Maintopic</th>
+                                        <th class="col-md-2">Subtopic</th>
+                                        <th>Details</th>
+                                        <th>Materials/Methodology</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in lessonPlans">
+                                        <td ng-if="editFlag">
+                                            <p data-toggle="tooltip" data-placement="left" title="Edit this lesson plan">
+                                                <a ng-click="editLesson($index)" href="javascript:void"><i class="fa fa-fw fa-edit"></i></a>
+                                            </p>
+                                            <p data-toggle="tooltip" data-placement="left" title="Delete this lesson plan">
+                                                <a ng-click="confirmDeleteLesson($index)" href="javascript:void"><i class="fa fa-fw fa-trash-o"></i></a>
+                                            </p>
+                                        </td>
+                                        <td>{{$index+ 1}}</td>
+                                        <td>{{x.mainTopic}}</td>
+                                        <td>{{x.subTopic}}</td>
+                                        <td>{{x.details}}</td>
+                                        <td>{{x.methodology}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Lesson Plan Form -->
+<div id="lessonPlanModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:75%;">
+    <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Create a new lesson plan</h3>
+                <p class="help-block">Create a draft on the fly. You can always update your lesson plan later.</p>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal">
+                    <input id="editMode" type="hidden" value="{{editMode}}">
+                    <input id="lessonId" type="hidden" value="{{lessonId}}">
+                    <div class="form-group">
+                        <label for="mainTopic" class="col-sm-2 control-label">Main Topic</label>
+                        <div class="col-sm-10">
+                            <input ng-model="mainTopic" class="form-control">
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mainTopic" class="col-sm-2 control-label">Sub Topic</label>
+                        <div class="col-sm-10">
+                            <input ng-model="subTopic" class="form-control">
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mainTopic" class="col-sm-2 control-label">Details</label>
+                        <div class="col-sm-10">
+                            <textarea ng-model="details" class="form-control" rows="3"></textarea>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mainTopic" class="col-sm-2 control-label">Methodology</label>
+                        <div class="col-sm-10">
+                            <textarea ng-model="methodology" class="form-control" rows="3"></textarea>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="saveLesson()" class="btn btn-primary">Save</button>
+                <button type="button" ng-click="clearForm()" class="btn btn-default">Clear</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>    
+    </div>
+</div>
+
+<!-- Lesson Plan Form -->
+<div id="deleteLessonPlanModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Ooops! Wait</h3>
+            </div>
+            <div class="modal-body">
+                <input id="lessonId" type="hidden" value="{{lessonId}}">
+                <div class="alert alert-warning">
+                    <strong>Are you sure you want to delete this lesson?</strong> Once deleted, it cannot be undone.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="deleteLesson()" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+        </div>    
+    </div>
+</div>
